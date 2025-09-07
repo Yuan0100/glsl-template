@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vite-plugin-glsl": "^1.5.1"
+  },
+  "dependencies": {
+    "lil-gui": "^0.20.0"
   }
 }
