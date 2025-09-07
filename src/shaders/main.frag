@@ -1,4 +1,21 @@
-precision mediump float;   // 用 mediump，避免少數環境 highp 不可用
+precision mediump float;
+uniform vec2  iResolution;
+uniform float iTime;
+uniform vec2  iMouse;
+uniform float u_scale;
+uniform float u_speed;
+
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+  vec2 uv = fragCoord / iResolution.xy;
+  uv = uv * 2.0 - 1.0; // [-1,1] 範圍
+  float t = iTime * u_speed;
+  float d = length(uv) * u_scale;
+  float v = 0.5 + 0.5 * sin(10.0 * d - t*6.28318);
+  vec3 col = mix(vec3(0.05, 0.25, 0.45), vec3(0.95, 0.85, 0.55), v);
+  fragColor = vec4(col, 1.0);
+}
 void main() {
-  gl_FragColor = vec4(1.0, 0.0, 0.8, 1.0);  // 純色 (粉紅)
+  vec4 color;
+  mainImage(color, gl_FragCoord.xy);
+  gl_FragColor = color;
 }
