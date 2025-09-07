@@ -60,6 +60,7 @@ export function createGL(canvas, vertSrc, fragSrc) {
     u_iMouse:      get("iMouse"),
     u_scale:       get("u_scale"),
     u_speed:       get("u_speed"),
+    u_followMouse: get("u_followMouse")
   };
   console.log("[Uniform locations]", handles);
   return handles;
@@ -81,6 +82,7 @@ export function renderLoop(h, state) {
     if (h.u_iMouse)      gl.uniform2f(h.u_iMouse, state.mouse[0], state.mouse[1]);
     if (h.u_scale)       gl.uniform1f(h.u_scale, state.scale ?? 1.0);
     if (h.u_speed)       gl.uniform1f(h.u_speed, state.speed ?? 1.0);
+    if (h.u_followMouse) gl.uniform1i(h.u_followMouse, state.followMouse ? 1 : 0);
 
     // 繪製全螢幕三角形
     gl.drawArrays(gl.TRIANGLES, 0, 6);

@@ -4,10 +4,12 @@ uniform float iTime;
 uniform vec2  iMouse;
 uniform float u_scale;
 uniform float u_speed;
+uniform int   u_followMouse;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv = fragCoord / iResolution.xy;
-  uv = uv * 2.0 - 1.0; // [-1,1] 範圍
+  vec2 center = u_followMouse == 1 ? iMouse / iResolution.xy : vec2(0.5, 0.5);
+  uv = uv - center;
   float t = iTime * u_speed;
   float d = length(uv) * u_scale;
   float v = 0.5 + 0.5 * sin(10.0 * d - t*6.28318);
