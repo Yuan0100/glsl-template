@@ -1,0 +1,55 @@
+# GitHub Actions 的名稱
+name: Deploy to GitHub Pages
+
+# 觸發條件：當推送到 main 分支時執行
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# 工作流程所需權限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 定義工作
+jobs:
+  deploy:
+    if: github.repository != 'Yuan0100/glsl-template'
+    # 指定執行的環境
+    runs-on: ubuntu-latest
+    steps:
+      # 步驟 1: 取得原始碼
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 步驟 2: 設定 Node.js 環境
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 使用與開發環境相符的版本
+
+      # 步驟 3: 安裝專案依賴
+      - name: Install dependencies
+        run: npm install
+
+      # 步驟 4: 建置專案
+      - name: Build
+        run: npm run build
+
+      # 步驟 5: 設定 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 步驟 6: 上傳建置好的檔案
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 步驟 7: 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
