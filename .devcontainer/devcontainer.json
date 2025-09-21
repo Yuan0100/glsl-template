@@ -1,0 +1,40 @@
+{
+  // 給你的開發環境取個名字
+  "name": "GLSL Shader Template",
+  // 指定一個預設包含 Node.js 和 npm 的 Docker 映像檔
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  // 設定要自動安裝的 VS Code 擴充套件
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "slevesque.shader",
+        "patriciogonzalezvivo.vscode-glsl-canvas",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "PKief.material-icon-theme",
+        "zhuangtongfa.material-theme"
+      ],
+      "settings": {
+        "workbench.colorTheme": "One Dark Pro Darker",
+        "workbench.iconTheme": "material-icon-theme"
+      }
+    }
+  },
+  // 將 Vite 的預設端口 5173 轉發出來，這樣你才能在瀏覽器中預覽
+  "forwardPorts": [
+    5173
+  ],
+  // 當開發環境建立完成後，自動執行 `npm install`
+  "postCreateCommand": "npm install -g npm@latest && npm install",
+  // 當你關閉 Codespace 時，告訴它如何處理轉發的端口
+  "postAttachCommand": {
+    "server": "npm run dev -- --host"
+  },
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "openBrowser"
+    }
+  }
+}
